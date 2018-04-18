@@ -1,0 +1,11 @@
+--- tdadmin/CMakeLists.txt.orig	2016-01-02 15:29:33.164274030 +0100
++++ tdadmin/CMakeLists.txt	2016-01-02 15:29:47.521274994 +0100
+@@ -59,7 +59,7 @@
+ INSTALL(TARGETS tdadmin RUNTIME DESTINATION sbin)
+ 
+ IF (UNIX AND NOT APPLE)
+-	SET(UDEV_RULES_DIR	"/etc/udev/rules.d" CACHE PATH "The directory where udev store its rules" )
++	SET(UDEV_RULES_DIR	"/lib/udev/rules.d" CACHE PATH "The directory where udev store its rules" )
+ 	CONFIGURE_FILE(
+ 		${CMAKE_CURRENT_SOURCE_DIR}/05-tellstick.rules
+ 		${CMAKE_BINARY_DIR}/parsed/05-tellstick.rules

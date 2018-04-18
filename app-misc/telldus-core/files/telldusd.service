@@ -1,0 +1,9 @@
+[Unit]
+Description=Tellstick service daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/telldusd --nodaemon --debug
+
+[Install]
+WantedBy=multi-user.target
