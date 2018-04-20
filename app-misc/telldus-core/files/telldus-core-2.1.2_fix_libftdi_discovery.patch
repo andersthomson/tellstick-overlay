@@ -1,5 +1,5 @@
---- service/CMakeLists.txt.orig	2018-02-15 21:54:58.342017698 +0100
-+++ service/CMakeLists.txt	2018-02-15 21:44:02.706653427 +0100
+--- telldus-core/service/CMakeLists.txt.orig	2018-02-15 21:54:58.342017698 +0100
++++ telldus-core/service/CMakeLists.txt	2018-02-15 21:44:02.706653427 +0100
 @@ -184,9 +184,9 @@
  	LIST(APPEND telldus-service_SRCS TellStick_ftd2xx.cpp )
  	LIST(APPEND telldus-service_LIBRARIES ${FTD2XX_LIBRARY})
