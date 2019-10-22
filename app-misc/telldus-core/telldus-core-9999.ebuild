@@ -14,6 +14,8 @@ HOMEPAGE="http://www.telldus.se/"
 
 KEYWORDS="~amd64 arm ~x86"
 EGIT_REPO_URI="https://github.com/andersthomson/telldus.git"
+# Disable all submodules
+EGIT_SUBMODULES=()
 
 LICENSE="LGPL-2"
 SLOT="0"
