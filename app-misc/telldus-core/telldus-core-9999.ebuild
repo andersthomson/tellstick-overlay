@@ -52,7 +52,8 @@ src_compile() {
 
 src_install() {
 	systemd_dounit "${FILESDIR}"/telldusd.service
-	DESTDIR="${D}" make -j1 install
+	#DESTDIR="${D}" make -j1 install
+	cmake_src_install
 }
 
 pkg_postinst() {
