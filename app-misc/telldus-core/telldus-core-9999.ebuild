@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=7
 
-inherit cmake-utils systemd git-r3
+inherit cmake cmake-utils systemd git-r3 eutils
 
 CMAKE_IN_SOURCE_BUILD="true"
 
@@ -24,34 +24,37 @@ LDFLAGS="-lpthread"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
-   virtual/pkgconfig
-   dev-embedded/libftdi
-   dev-libs/confuse 
-   dev-util/cmake"
+	virtual/pkgconfig
+	dev-embedded/libftdi
+	dev-libs/confuse
+	dev-util/cmake"
 
 S="${WORKDIR}/${P}/telldus-core"
 src_prepare() {
 #   #epatch "${FILESDIR}"/telldus-core-2.1.1_fix_missing_include.patch
 #   epatch "${FILESDIR}"/telldus-core-2.1.2_remove_doxygen.patch
 #   epatch "${FILESDIR}"/telldus-core-2.1.2_udev_rules_path.patch
-   epatch "${FILESDIR}"/telldus-core-2.1.2_fix_libftdi_discovery.patch
+	eapply_user
+	eapply "${FILESDIR}"/telldus-core-2.1.2_fix_libftdi_discovery.patch
+	cmake-utils_src_prepare
 }
 
 src_configure() {
-   local mycmakeargs=( -DFORCE_COMPILE_FROM_TRUNK="TRUE" )
-   cmake-utils_src_configure
+	local mycmakeargs=( -DFORCE_COMPILE_FROM_TRUNK="TRUE" )
+	cmake-utils_src_configure
 }
 
 src_compile() {
-   cd "${CMAKE_BUILD_DIR}"
-   emake -j1 || die "make failed"
+	cd "${CMAKE_BUILD_DIR}"
+	#emake -j1 || die "make failed"
+	cmake_src_compile -j1
 }
 
 src_install() {
-   systemd_dounit "${FILESDIR}"/telldusd.service
-   DESTDIR="${D}" make -j1 install
+	systemd_dounit "${FILESDIR}"/telldusd.service
+	DESTDIR="${D}" make -j1 install
 }
 
 pkg_postinst() {
-   elog "Configure your devices by editing the /etc/tellstick.conf file"
+	elog "Configure your devices by editing the /etc/tellstick.conf file"
 }
