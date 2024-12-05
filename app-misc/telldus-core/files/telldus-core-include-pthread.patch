@@ -1,0 +1,10 @@
+--- telldus-core.orig/common/common.h	2024-12-05 09:09:52.194428488 +0100
++++ telldus-core/common/common.h	2024-12-05 09:11:11.118013579 +0100
+@@ -15,6 +15,7 @@
+ #include <windows.h>
+ #else
+ #include <unistd.h>
++#include <pthread.h>
+ #endif
+ #include <stdarg.h>
+ #include <stdio.h>

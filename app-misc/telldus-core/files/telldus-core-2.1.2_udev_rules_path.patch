@@ -1,5 +1,5 @@
---- tdadmin/CMakeLists.txt.orig	2016-01-02 15:29:33.164274030 +0100
-+++ tdadmin/CMakeLists.txt	2016-01-02 15:29:47.521274994 +0100
+--- a/tdadmin/CMakeLists.txt	2016-01-02 15:29:33.164274030 +0100
++++ b/tdadmin/CMakeLists.txt	2016-01-02 15:29:47.521274994 +0100
 @@ -59,7 +59,7 @@
  INSTALL(TARGETS tdadmin RUNTIME DESTINATION sbin)
  

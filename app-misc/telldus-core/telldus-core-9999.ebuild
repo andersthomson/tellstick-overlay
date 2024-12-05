@@ -4,7 +4,8 @@
 
 EAPI=7
 
-inherit cmake cmake-utils systemd git-r3 eutils
+#inherit cmake cmake-utils systemd git-r3 eutils
+inherit git-r3 cmake systemd udev
 
 CMAKE_IN_SOURCE_BUILD="true"
 
@@ -27,21 +28,23 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	dev-embedded/libftdi
 	dev-libs/confuse
-	dev-util/cmake"
+	dev-build/cmake"
 
 S="${WORKDIR}/${P}/telldus-core"
 src_prepare() {
-#   #epatch "${FILESDIR}"/telldus-core-2.1.1_fix_missing_include.patch
-#   epatch "${FILESDIR}"/telldus-core-2.1.2_remove_doxygen.patch
-#   epatch "${FILESDIR}"/telldus-core-2.1.2_udev_rules_path.patch
-	eapply_user
+	#eapply "${FILESDIR}"/telldus-core-2.1.1_fix_missing_include.patch
+	eapply "${FILESDIR}"/telldus-core-NULL-fixes.patch
+	eapply "${FILESDIR}"/telldus-core-include-pthread.patch
+	eapply "${FILESDIR}"/telldus-core-2.1.2_remove_doxygen.patch
+	eapply "${FILESDIR}"/telldus-core-2.1.2_udev_rules_path.patch
 	eapply "${FILESDIR}"/telldus-core-2.1.2_fix_libftdi_discovery.patch
-	cmake-utils_src_prepare
+	eapply_user
+	cmake_src_prepare
 }
 
 src_configure() {
 	local mycmakeargs=( -DFORCE_COMPILE_FROM_TRUNK="TRUE" )
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_compile() {
@@ -54,8 +57,15 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/telldusd.service
 	#DESTDIR="${D}" make -j1 install
 	cmake_src_install
+	fperms 0600 /var/state/telldus-core.conf
 }
 
 pkg_postinst() {
 	elog "Configure your devices by editing the /etc/tellstick.conf file"
+	udev_reload
 }
+
+pkg_postrm() {
+	udev_reload
+}
+
